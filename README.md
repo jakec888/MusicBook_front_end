@@ -1,5 +1,5 @@
-# MusicBook
+<h1>MusicBook</h1>
 
-##Authors
-Jacon Condes
+<h2>Authors</h2>
+ Jacon Condes
 Christopher Cook
