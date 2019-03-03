@@ -39,6 +39,7 @@ class App extends Component {
       this.state = {
          data: [],
          editting: false,
+         id: "",
          song_name: "",
          artist: "",
          videoId: "",
@@ -50,6 +51,7 @@ class App extends Component {
 
    componentDidMount() {
       // API HERE (GET)
+      // data should be replace with a list of objects!
       this.setState({
          data: data
       });
@@ -62,7 +64,7 @@ class App extends Component {
    handleSubmit = event => {
       event.preventDefault();
       if (this.state.editting) {
-         this.editData();
+         this.handleEditData();
          this.clearForm();
       } else {
          this.addData();
@@ -72,6 +74,8 @@ class App extends Component {
 
    clearForm = () => {
       this.setState({
+         editting: false,
+         id: "",
          song_name: "",
          artist: "",
          videoId: "",
@@ -81,7 +85,11 @@ class App extends Component {
 
    addData = () => {
       // API HERE (POST)
+
+      // Be SURE to change ID with the ID Postgres Creates!!!!!!
       const newData = {
+         // CHANGE HERE!!
+         id: Math.floor(Math.random() * Math.floor(10000)),
          song_name: this.state.song_name,
          artist: this.state.artist,
          videoId: this.state.videoId,
@@ -95,11 +103,49 @@ class App extends Component {
       });
    };
 
-   editData = () => {
-      // API HERE (PUT)
+   editData = event => {
       console.log("Editing");
+
+      let selectedObject = this.state.data.find(function(object) {
+         return object.id === Number(event.target.id);
+      });
+
       this.setState({
-         editting: true
+         editting: true,
+         id: selectedObject.id,
+         song_name: selectedObject.song_name,
+         artist: selectedObject.artist,
+         videoId: selectedObject.videoId,
+         contributor: selectedObject.contributor,
+         likes: selectedObject.likes,
+         dislikes: selectedObject.dislikes
+      });
+   };
+
+   handleEditData = () => {
+      // API HERE (PUT)
+      console.log("Handleing Editing");
+
+      const updateMusic = {
+         id: this.state.id,
+         song_name: this.state.song_name,
+         artist: this.state.artist,
+         videoId: this.state.videoId,
+         contributor: this.state.contributor,
+         likes: this.state.likess,
+         dislikes: this.state.dislikes
+      };
+
+      const update = this.state.data.map(function(item) {
+         if (item.id === updateMusic.id) {
+            return updateMusic;
+         } else {
+            return item;
+         }
+      });
+
+      this.setState({
+         data: update
       });
    };
 
@@ -133,9 +179,45 @@ class App extends Component {
                <strong>depression</strong>
             </p>
             {this.state.editting ? (
-               <p>Edditing</p>
+               <div className="form">
+                  <h3>Edit Music</h3>
+                  <form onSubmit={this.handleSubmit}>
+                     <input
+                        type="text"
+                        id="song_name"
+                        value={this.state.song_name}
+                        onChange={this.handleChange}
+                        placeholder="Song Name"
+                     />
+                     <input
+                        type="text"
+                        id="artist"
+                        value={this.state.artist}
+                        onChange={this.handleChange}
+                        placeholder="Artist"
+                     />
+                     <input
+                        type="text"
+                        id="videoId"
+                        value={this.state.videoId}
+                        onChange={this.handleChange}
+                        placeholder="Video ID"
+                     />
+                     <input
+                        type="text"
+                        id="contributor"
+                        value={this.state.contributor}
+                        onChange={this.handleChange}
+                        placeholder="Contributor"
+                     />
+                     <button type="submit" className="submit-button">
+                        Update Song
+                     </button>
+                  </form>
+               </div>
             ) : (
                <div className="form">
+                  <h3>Submit Music</h3>
                   <form onSubmit={this.handleSubmit}>
                      <input
                         type="text"
