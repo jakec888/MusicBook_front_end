@@ -34,7 +34,12 @@ class App extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         data: []
+         data: [],
+         editting: false,
+         song_name: "",
+         artist: "",
+         videoId: "",
+         contributor: ""
       };
    }
 
@@ -44,6 +49,38 @@ class App extends Component {
       });
    }
 
+   handleChange = event => {
+      this.setState({ [event.target.id]: event.target.value });
+   };
+
+   handleSubmit = event => {
+      event.preventDefault();
+      this.addData();
+      this.clearForm();
+   };
+
+   clearForm = () => {
+      this.setState({
+         song_name: "",
+         artist: "",
+         videoId: "",
+         contributor: ""
+      });
+   };
+
+   addData = () => {
+      const newData = {
+         song_name: this.state.song_name,
+         artist: this.state.artist,
+         videoId: this.state.videoId,
+         contributor: this.state.contributor
+      };
+      const updateData = [newData, ...this.state.data];
+      this.setState({
+         data: updateData
+      });
+   };
+
    render() {
       return (
          <div className="main">
@@ -52,6 +89,41 @@ class App extends Component {
                Just like <strong>FaceBook</strong> but without all the{" "}
                <strong>depression</strong>
             </p>
+            <div className="form">
+               <form onSubmit={this.handleSubmit}>
+                  <input
+                     type="text"
+                     id="song_name"
+                     value={this.state.song_name}
+                     onChange={this.handleChange}
+                     placeholder="Song Name"
+                  />
+                  <input
+                     type="text"
+                     id="artist"
+                     value={this.state.artist}
+                     onChange={this.handleChange}
+                     placeholder="Artist"
+                  />
+                  <input
+                     type="text"
+                     id="videoId"
+                     value={this.state.videoId}
+                     onChange={this.handleChange}
+                     placeholder="Video ID"
+                  />
+                  <input
+                     type="text"
+                     id="contributor"
+                     value={this.state.contributor}
+                     onChange={this.handleChange}
+                     placeholder="Contributor"
+                  />
+                  <button type="submit" className="submit-button">
+                     <i className="fas fa-plus" />
+                  </button>
+               </form>
+            </div>
             {this.state.data.map((music, index) => {
                return (
                   <Music
