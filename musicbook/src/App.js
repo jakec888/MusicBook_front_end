@@ -104,8 +104,6 @@ class App extends Component {
    };
 
    editData = event => {
-      console.log("Editing");
-
       let selectedObject = this.state.data.find(function(object) {
          return object.id === Number(event.target.id);
       });
@@ -124,7 +122,6 @@ class App extends Component {
 
    handleEditData = () => {
       // API HERE (PUT)
-      console.log("Handleing Editing");
 
       const updateMusic = {
          id: this.state.id,
@@ -132,7 +129,7 @@ class App extends Component {
          artist: this.state.artist,
          videoId: this.state.videoId,
          contributor: this.state.contributor,
-         likes: this.state.likess,
+         likes: this.state.likes,
          dislikes: this.state.dislikes
       };
 
@@ -151,9 +148,68 @@ class App extends Component {
 
    deleteData = event => {
       // API HERE (DELETE)
-      console.log("Deletings");
       this.setState({
          data: this.state.data.filter(item => item.id !== Number(event.target.id))
+      });
+   };
+
+   likeData = event => {
+      // API HERE (PUT)
+
+      let selectedObject = this.state.data.find(function(object) {
+         return object.id === Number(event.target.id);
+      });
+
+      const likedMusic = {
+         id: selectedObject.id,
+         song_name: selectedObject.song_name,
+         artist: selectedObject.artist,
+         videoId: selectedObject.videoId,
+         contributor: selectedObject.contributor,
+         likes: selectedObject.likes + 1,
+         dislikes: selectedObject.dislikes
+      };
+
+      const update = this.state.data.map(function(item) {
+         if (item.id === likedMusic.id) {
+            return likedMusic;
+         } else {
+            return item;
+         }
+      });
+
+      this.setState({
+         data: update
+      });
+   };
+
+   dislikeData = event => {
+      // API HERE (PUT)
+
+      let selectedObject = this.state.data.find(function(object) {
+         return object.id === Number(event.target.id);
+      });
+
+      const dislikeMusic = {
+         id: selectedObject.id,
+         song_name: selectedObject.song_name,
+         artist: selectedObject.artist,
+         videoId: selectedObject.videoId,
+         contributor: selectedObject.contributor,
+         likes: selectedObject.likes,
+         dislikes: selectedObject.dislikes + 1
+      };
+
+      const update = this.state.data.map(function(item) {
+         if (item.id === dislikeMusic.id) {
+            return dislikeMusic;
+         } else {
+            return item;
+         }
+      });
+
+      this.setState({
+         data: update
       });
    };
 
@@ -272,6 +328,12 @@ class App extends Component {
                      </button>
                      <button id={music.id} onClick={this.deleteData}>
                         Delete
+                     </button>
+                     <button id={music.id} onClick={this.likeData}>
+                        Like
+                     </button>
+                     <button id={music.id} onClick={this.dislikeData}>
+                        Dislike
                      </button>
                   </div>
                );
