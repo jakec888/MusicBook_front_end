@@ -11,19 +11,22 @@ export default class Music extends Component {
          width: "560",
          height: "315",
          playerVars: {
-            autoplay: 0
+            autoplay: 0,
+            rel: 0
          }
       };
 
       return (
          <div className="music-container">
+            <p>{this.props.index}</p>
             <p>Song Name: {this.props.song_name}</p>
             <p>Artist: {this.props.artist}</p>
-            <YouTube videoId={this.props.videoId} opts={opts} onReady={this._onReady} />
+            <YouTube videoId={this.props.videoId} onReady={this._onReady} opts={opts} />
             <p>Contributor: {this.props.contributor}</p>
             <p>Likes: {this.props.likes}</p>
             <p>Dislikes: {this.props.dislikes}</p>
             <button onClick={this.props.editData}>Edit</button>
+            <button onClick={this.props.deleteData}>Delete</button>
          </div>
       );
    }
