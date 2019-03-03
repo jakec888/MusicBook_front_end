@@ -43,7 +43,9 @@ class App extends Component {
          likes: 0,
          dislikes: 0
       };
+      this.updateCount = this.updateCount.bind(this);
    }
+
 
    componentDidMount() {
       // API HERE (GET)
@@ -65,6 +67,7 @@ class App extends Component {
          this.addData();
          this.clearForm();
       }
+      console.log(this.state);
    };
 
    clearForm = () => {
@@ -105,6 +108,13 @@ class App extends Component {
       console.log("Deletings");
       console.log(stuff);
    };
+
+   updateCount = (data) => {
+     this.setState({
+       dislikes: data++
+     })
+     console.log(this.data);
+   }
 
    render() {
       return (
@@ -165,6 +175,7 @@ class App extends Component {
                      dislikes={music.dislikes}
                      editData={this.editData}
                      deleteData={this.deleteData}
+                     updateCount={this.updateCount}
                   />
                );
             })}
