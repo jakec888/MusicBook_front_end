@@ -39,7 +39,9 @@ class App extends Component {
          song_name: "",
          artist: "",
          videoId: "",
-         contributor: ""
+         contributor: "",
+         likes: 0,
+         dislikes: 0
       };
    }
 
@@ -54,9 +56,13 @@ class App extends Component {
    };
 
    handleSubmit = event => {
-      event.preventDefault();
-      this.addData();
-      this.clearForm();
+      if (this.state.editting) {
+         this.editData();
+      } else {
+         event.preventDefault();
+         this.addData();
+         this.clearForm();
+      }
    };
 
    clearForm = () => {
@@ -73,11 +79,20 @@ class App extends Component {
          song_name: this.state.song_name,
          artist: this.state.artist,
          videoId: this.state.videoId,
-         contributor: this.state.contributor
+         contributor: this.state.contributor,
+         likes: 0,
+         dislikes: 0
       };
       const updateData = [newData, ...this.state.data];
       this.setState({
          data: updateData
+      });
+   };
+
+   editData = () => {
+      console.log("Editing");
+      this.setState({
+         editting: true
       });
    };
 
@@ -89,41 +104,45 @@ class App extends Component {
                Just like <strong>FaceBook</strong> but without all the{" "}
                <strong>depression</strong>
             </p>
-            <div className="form">
-               <form onSubmit={this.handleSubmit}>
-                  <input
-                     type="text"
-                     id="song_name"
-                     value={this.state.song_name}
-                     onChange={this.handleChange}
-                     placeholder="Song Name"
-                  />
-                  <input
-                     type="text"
-                     id="artist"
-                     value={this.state.artist}
-                     onChange={this.handleChange}
-                     placeholder="Artist"
-                  />
-                  <input
-                     type="text"
-                     id="videoId"
-                     value={this.state.videoId}
-                     onChange={this.handleChange}
-                     placeholder="Video ID"
-                  />
-                  <input
-                     type="text"
-                     id="contributor"
-                     value={this.state.contributor}
-                     onChange={this.handleChange}
-                     placeholder="Contributor"
-                  />
-                  <button type="submit" className="submit-button">
-                     <i className="fas fa-plus" />
-                  </button>
-               </form>
-            </div>
+            {this.state.editting ? (
+               <p>Edditing</p>
+            ) : (
+               <div className="form">
+                  <form onSubmit={this.handleSubmit}>
+                     <input
+                        type="text"
+                        id="song_name"
+                        value={this.state.song_name}
+                        onChange={this.handleChange}
+                        placeholder="Song Name"
+                     />
+                     <input
+                        type="text"
+                        id="artist"
+                        value={this.state.artist}
+                        onChange={this.handleChange}
+                        placeholder="Artist"
+                     />
+                     <input
+                        type="text"
+                        id="videoId"
+                        value={this.state.videoId}
+                        onChange={this.handleChange}
+                        placeholder="Video ID"
+                     />
+                     <input
+                        type="text"
+                        id="contributor"
+                        value={this.state.contributor}
+                        onChange={this.handleChange}
+                        placeholder="Contributor"
+                     />
+                     <button type="submit" className="submit-button">
+                        Add Song
+                     </button>
+                  </form>
+               </div>
+            )}
             {this.state.data.map((music, index) => {
                return (
                   <Music
@@ -134,6 +153,7 @@ class App extends Component {
                      contributor={music.contributor}
                      likes={music.likes}
                      dislikes={music.dislikes}
+                     editData={this.editData}
                   />
                );
             })}
