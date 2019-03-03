@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import Music from "./components/Music";
+import YouTube from "react-youtube";
 
 import "./App.css";
 
 const data = [
    {
+      id: 1,
       song_name: "Sad Song 1",
       artist: "Jake's Band",
       videoId: "Mp8kFqycfFM",
@@ -13,6 +14,7 @@ const data = [
       dislikes: 2
    },
    {
+      id: 2,
       song_name: "Sad Song 2",
       artist: "Jake's Band",
       videoId: "T2X1Xd9jl_o",
@@ -21,6 +23,7 @@ const data = [
       dislikes: 3
    },
    {
+      id: 3,
       song_name: "Sad Song 3",
       artist: "Jake's Band",
       videoId: "SuGuqHeEmnk",
@@ -100,13 +103,28 @@ class App extends Component {
       });
    };
 
-   deleteData = stuff => {
-      // API HERE (PUT)
+   deleteData = event => {
+      // API HERE (DELETE)
       console.log("Deletings");
-      console.log(stuff);
+      this.setState({
+         data: this.state.data.filter(item => item.id !== Number(event.target.id))
+      });
+   };
+
+   _onReady = event => {
+      event.target.pauseVideo();
    };
 
    render() {
+      const opts = {
+         width: "560",
+         height: "315",
+         playerVars: {
+            autoplay: 0,
+            rel: 0
+         }
+      };
+
       return (
          <div className="main">
             <h1>Music Book</h1>
@@ -153,19 +171,27 @@ class App extends Component {
                   </form>
                </div>
             )}
-            {this.state.data.map((music, index) => {
+            {this.state.data.map(music => {
                return (
-                  <Music
-                     key={index}
-                     song_name={music.song_name}
-                     artist={music.artist}
-                     videoId={music.videoId}
-                     contributor={music.contributor}
-                     likes={music.likes}
-                     dislikes={music.dislikes}
-                     editData={this.editData}
-                     deleteData={this.deleteData}
-                  />
+                  <div className="music-container" key={music.id}>
+                     <p>{music.id}</p>
+                     <p>Song Name: {music.song_name}</p>
+                     <p>Artist: {music.artist}</p>
+                     <YouTube
+                        videoId={music.videoId}
+                        onReady={this._onReady}
+                        opts={opts}
+                     />
+                     <p>Contributor: {music.contributor}</p>
+                     <p>Likes: {music.likes}</p>
+                     <p>Dislikes: {music.dislikes}</p>
+                     <button id={music.id} onClick={this.editData}>
+                        Edit
+                     </button>
+                     <button id={music.id} onClick={this.deleteData}>
+                        Delete
+                     </button>
+                  </div>
                );
             })}
          </div>
