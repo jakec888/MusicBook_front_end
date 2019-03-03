@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Music from "./components/Music";
+
 import "./App.css";
 
 const data = [
@@ -32,20 +34,27 @@ class App extends Component {
    constructor(props) {
       super(props);
       this.state = {
-         data: data
+         data: []
       };
    }
 
-   showData = () => {
-      console.log(this.state.data);
-   };
+   componentDidMount() {
+      this.setState({
+         data: data
+      });
+   }
 
    render() {
       return (
-         <div className="App">
-            <button onClick={this.showData} className="myButton">
-               Click Me
-            </button>
+         <div className="main">
+            <h1>Music Book</h1>
+            <p>
+               Just like <strong>FaceBook</strong> but without all the{" "}
+               <strong>depression</strong>
+            </p>
+            {this.state.data.map((music, index) => {
+               return <Music key={index} song_name={music.song_name} />;
+            })}
          </div>
       );
    }
