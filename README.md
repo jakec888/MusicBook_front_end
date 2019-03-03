@@ -6,4 +6,4 @@ Christopher Cook
 
 <br/>
 <br/>
-<a href="https://github.com/christopher-cook/MusicBook_api/blob/master/README.md">Back-End Repo</a>
+<a href="https://github.com/christopher-cook/MusicBook_api">Back-End Repo</a>
