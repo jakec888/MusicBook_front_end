@@ -46,6 +46,7 @@ class App extends Component {
    }
 
    componentDidMount() {
+      // API HERE (GET)
       this.setState({
          data: data
       });
@@ -56,10 +57,11 @@ class App extends Component {
    };
 
    handleSubmit = event => {
+      event.preventDefault();
       if (this.state.editting) {
          this.editData();
+         this.clearForm();
       } else {
-         event.preventDefault();
          this.addData();
          this.clearForm();
       }
@@ -75,6 +77,7 @@ class App extends Component {
    };
 
    addData = () => {
+      // API HERE (POST)
       const newData = {
          song_name: this.state.song_name,
          artist: this.state.artist,
@@ -90,10 +93,17 @@ class App extends Component {
    };
 
    editData = () => {
+      // API HERE (PUT)
       console.log("Editing");
       this.setState({
          editting: true
       });
+   };
+
+   deleteData = stuff => {
+      // API HERE (PUT)
+      console.log("Deletings");
+      console.log(stuff);
    };
 
    render() {
@@ -154,6 +164,7 @@ class App extends Component {
                      likes={music.likes}
                      dislikes={music.dislikes}
                      editData={this.editData}
+                     deleteData={this.deleteData}
                   />
                );
             })}
