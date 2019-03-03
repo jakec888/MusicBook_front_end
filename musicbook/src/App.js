@@ -7,7 +7,7 @@ const data = [
    {
       song_name: "Sad Song 1",
       artist: "Jake's Band",
-      video_url: "https://www.youtube.com/watch?v=66C4YIiwRbM",
+      videoId: "Mp8kFqycfFM",
       contributor: "Chris C",
       likes: 8,
       dislikes: 2
@@ -15,7 +15,7 @@ const data = [
    {
       song_name: "Sad Song 2",
       artist: "Jake's Band",
-      video_url: "https://www.youtube.com/watch?v=66C4YIiwRbM",
+      videoId: "T2X1Xd9jl_o",
       contributor: "Chris C",
       likes: 24,
       dislikes: 3
@@ -23,7 +23,7 @@ const data = [
    {
       song_name: "Sad Song 3",
       artist: "Jake's Band",
-      video_url: "https://www.youtube.com/watch?v=66C4YIiwRbM",
+      videoId: "SuGuqHeEmnk",
       contributor: "Chris C",
       likes: 25,
       dislikes: 50
@@ -53,7 +53,17 @@ class App extends Component {
                <strong>depression</strong>
             </p>
             {this.state.data.map((music, index) => {
-               return <Music key={index} song_name={music.song_name} />;
+               return (
+                  <Music
+                     key={index}
+                     song_name={music.song_name}
+                     artist={music.artist}
+                     videoId={music.videoId}
+                     contributor={music.contributor}
+                     likes={music.likes}
+                     dislikes={music.dislikes}
+                  />
+               );
             })}
          </div>
       );
