@@ -219,8 +219,8 @@ class App extends Component {
 
    render() {
       const opts = {
-         width: "560",
-         height: "315",
+         width: "640",
+         height: "390",
          playerVars: {
             autoplay: 0,
             rel: 0
@@ -267,7 +267,7 @@ class App extends Component {
                         placeholder="Contributor"
                      />
                      <button type="submit" className="submit-button">
-                        Update Song
+                        <h5>Update Song</h5>
                      </button>
                   </form>
                </div>
@@ -304,37 +304,58 @@ class App extends Component {
                         placeholder="Contributor"
                      />
                      <button type="submit" className="submit-button">
-                        Add Song
+                        <h5>Add Song</h5>
                      </button>
                   </form>
                </div>
             )}
             {this.state.data.map(music => {
                return (
-                  <div className="music-container" key={music.id}>
-                     <p>{music.id}</p>
-                     <p>Song Name: {music.song_name}</p>
-                     <p>Artist: {music.artist}</p>
-                     <YouTube
-                        videoId={music.videoId}
-                        onReady={this._onReady}
-                        opts={opts}
-                     />
-                     <p>Contributor: {music.contributor}</p>
-                     <p>Likes: {music.likes}</p>
-                     <p>Dislikes: {music.dislikes}</p>
-                     <button id={music.id} onClick={this.editData}>
-                        Edit
-                     </button>
-                     <button id={music.id} onClick={this.deleteData}>
-                        Delete
-                     </button>
-                     <button id={music.id} onClick={this.likeData}>
-                        Like
-                     </button>
-                     <button id={music.id} onClick={this.dislikeData}>
-                        Dislike
-                     </button>
+                  <div className="music-container" key={music.id} id={music.id}>
+                     <h2>{music.song_name}</h2>
+                     <h3>{music.artist}</h3>
+                     <div className="rate">
+                        <div className="like">
+                           <p>Likes</p>
+                           <h3>{music.likes}</h3>
+                           <button
+                              id={music.id}
+                              onClick={this.likeData}
+                              className="likebtn"
+                           >
+                              Like
+                           </button>
+                        </div>
+                        <div className="music-vid">
+                           <YouTube
+                              className="yt"
+                              videoId={music.videoId}
+                              onReady={this._onReady}
+                              opts={opts}
+                           />
+                           <h5>Contributor: {music.contributor}</h5>
+                        </div>
+                        <div className="dislike">
+                           <p>Dislikes</p>
+                           <h3>{music.dislikes}</h3>
+                           <button
+                              id={music.id}
+                              onClick={this.dislikeData}
+                              className="dislikebtn"
+                           >
+                              Dislike
+                           </button>
+                        </div>
+                     </div>
+                     <div className="delup">
+                        <button id={music.id} onClick={this.editData}>
+                           Edit
+                        </button>
+                        <button id={music.id} onClick={this.deleteData}>
+                           Delete
+                        </button>
+                     </div>
+                     <hr />
                   </div>
                );
             })}

@@ -1,11 +1,91 @@
+/* https://stackoverflow.com/questions/33188994/scroll-to-the-top-of-the-page-after-render-in-react-js */
+
+@import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.css");
+@import url("https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css");
+@import url("https://fonts.googleapis.com/css?family=Shadows+Into+Light");
+
+body {
+   background-color: #eee1b3;
+   color: #2f394d;
+   font-family: "Shadows Into Light", cursive;
+}
+
+form {
+   display: flex;
+   flex-direction: column;
+   width: 75%;
+}
+
+h1,
+h2 {
+   font-size: 10rem;
+}
+
+h3,
+h4 {
+   font-size: 5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+   font-weight: bolder;
+}
+
+button:hover {
+   background-color: #330036;
+   color: #eee1b3;
+}
+
 .main {
    text-align: center;
+}
+
+.form {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   flex-direction: column;
+}
+
+.music-container {
+   /* border: 1px black solid; */
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+}
+
+.yt {
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.8);
+}
+
+.rate {
+   width: 80%;
+   display: flex;
+   align-items: center;
+   justify-content: space-around;
 }
 
 .myButton {
    color: red;
 }
 
-.music-container {
-   border: 1px black solid;
+.likebtn:hover {
+   background-color: green;
+   color: #eee1b3;
+}
+
+.dislikebtn:hover {
+   background-color: red;
+   color: #eee1b3;
+}
+
+.delup {
+   width: 80%;
+}
+
+.delup button {
+   width: 100%;
 }
