@@ -26,7 +26,7 @@ class App extends Component {
    }
 
    fetchSongs = () => {
-     fetch('http://localhost:3000/songs')    //this will be heroku url for live deployment
+     fetch('https://git.heroku.com/music-book-api.git/songs')    //this will be heroku url for live deployment
      .then(response => response.json())
      .then(music => this.setState({
        data: music
@@ -74,7 +74,7 @@ class App extends Component {
         likes: 0,
         dislikes: 0
      };
-      fetch('http://localhost:3000/songs', {
+      fetch('https://git.heroku.com/music-book-api.git/songs', {
         body: JSON.stringify(newData),
         method: 'POST',
         headers: {
@@ -116,7 +116,7 @@ class App extends Component {
          likes: this.state.likes,
          dislikes: this.state.dislikes
       }
-      fetch(`http://localhost:3000/songs/${this.state.id}`, {
+      fetch(`https://git.heroku.com/music-book-api.git/songs/${this.state.id}`, {
         body: JSON.stringify(updateMusic),
         method: 'PUT',
         headers: {
@@ -142,7 +142,7 @@ class App extends Component {
    }
 
    deleteSong = (event) => {
-     fetch(`http://localhost:3000/songs/${event.target.id}`, {
+     fetch(`https://git.heroku.com/music-book-api.git/songs/${event.target.id}`, {
        method: 'DELETE'
      })
         .then(data => {
@@ -165,7 +165,7 @@ class App extends Component {
          likes: selectedObject.likes + 1,
          dislikes: selectedObject.dislikes
       };
-      fetch(`http://localhost:3000/songs/${event.target.id}`, {
+      fetch(`https://git.heroku.com/music-book-api.git/songs/${event.target.id}`, {
         method: 'PUT',
         body: JSON.stringify(likedMusic),
         headers: {
@@ -204,7 +204,7 @@ class App extends Component {
          dislikes: selectedObject.dislikes + 1
       };
 
-      fetch(`http://localhost:3000/songs/${event.target.id}`, {
+      fetch(`https://git.heroku.com/music-book-api.git/songs/${event.target.id}`, {
         method: 'PUT',
         body: JSON.stringify(dislikeMusic),
         headers: {
