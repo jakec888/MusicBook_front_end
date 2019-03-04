@@ -311,16 +311,9 @@ class App extends Component {
             )}
             {this.state.data.map(music => {
                return (
-                  <div className="music-container" key={music.id}>
+                  <div className="music-container" key={music.id} id={music.id}>
                      <h2>{music.song_name}</h2>
                      <h3>{music.artist}</h3>
-                     <YouTube
-                        className="yt"
-                        videoId={music.videoId}
-                        onReady={this._onReady}
-                        opts={opts}
-                     />
-                     <h5>Contributor: {music.contributor}</h5>
                      <div className="rate">
                         <div className="like">
                            <p>Likes</p>
@@ -332,6 +325,15 @@ class App extends Component {
                            >
                               Like
                            </button>
+                        </div>
+                        <div className="music-vid">
+                           <YouTube
+                              className="yt"
+                              videoId={music.videoId}
+                              onReady={this._onReady}
+                              opts={opts}
+                           />
+                           <h5>Contributor: {music.contributor}</h5>
                         </div>
                         <div className="dislike">
                            <p>Dislikes</p>
@@ -353,6 +355,7 @@ class App extends Component {
                            Delete
                         </button>
                      </div>
+                     <hr />
                   </div>
                );
             })}
