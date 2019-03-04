@@ -26,7 +26,7 @@ class App extends Component {
    }
 
    fetchSongs = () => {
-     fetch('https://git.heroku.com/music-book-api.git/songs')    //this will be heroku url for live deployment
+     fetch('https://music-book-api.herokuapp.com/songs')    //this will be heroku url for live deployment
      .then(response => response.json())
      .then(music => this.setState({
        data: music
@@ -74,7 +74,7 @@ class App extends Component {
         likes: 0,
         dislikes: 0
      };
-      fetch('https://git.heroku.com/music-book-api.git/songs', {
+      fetch('https://music-book-api.herokuapp.com/songs', {
         body: JSON.stringify(newData),
         method: 'POST',
         headers: {
@@ -116,7 +116,7 @@ class App extends Component {
          likes: this.state.likes,
          dislikes: this.state.dislikes
       }
-      fetch(`https://git.heroku.com/music-book-api.git/songs/${this.state.id}`, {
+      fetch(`https://music-book-api.herokuapp.com/songs/${this.state.id}`, {
         body: JSON.stringify(updateMusic),
         method: 'PUT',
         headers: {
@@ -142,7 +142,7 @@ class App extends Component {
    }
 
    deleteSong = (event) => {
-     fetch(`https://git.heroku.com/music-book-api.git/songs/${event.target.id}`, {
+     fetch(`https://music-book-api.herokuapp.com/songs/${event.target.id}`, {
        method: 'DELETE'
      })
         .then(data => {
@@ -165,7 +165,7 @@ class App extends Component {
          likes: selectedObject.likes + 1,
          dislikes: selectedObject.dislikes
       };
-      fetch(`https://git.heroku.com/music-book-api.git/songs/${event.target.id}`, {
+      fetch(`https://music-book-api.herokuapp.com/songs/${event.target.id}`, {
         method: 'PUT',
         body: JSON.stringify(likedMusic),
         headers: {
@@ -204,7 +204,7 @@ class App extends Component {
          dislikes: selectedObject.dislikes + 1
       };
 
-      fetch(`https://git.heroku.com/music-book-api.git/songs/${event.target.id}`, {
+      fetch(`https://music-book-api.herokuapp.com/songs/${event.target.id}`, {
         method: 'PUT',
         body: JSON.stringify(dislikeMusic),
         headers: {
