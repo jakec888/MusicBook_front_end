@@ -3,35 +3,6 @@ import YouTube from "react-youtube";
 
 import "./App.css";
 
-const data = [
-   {
-      id: 1,
-      song_name: "Sad Song 1",
-      artist: "Jake's Band",
-      videoId: "Mp8kFqycfFM",
-      contributor: "Chris C",
-      likes: 8,
-      dislikes: 2
-   },
-   {
-      id: 2,
-      song_name: "Sad Song 2",
-      artist: "Jake's Band",
-      videoId: "T2X1Xd9jl_o",
-      contributor: "Chris C",
-      likes: 24,
-      dislikes: 3
-   },
-   {
-      id: 3,
-      song_name: "Sad Song 3",
-      artist: "Jake's Band",
-      videoId: "SuGuqHeEmnk",
-      contributor: "Chris C",
-      likes: 25,
-      dislikes: 50
-   }
-];
 
 class App extends Component {
    constructor(props) {
@@ -47,14 +18,24 @@ class App extends Component {
          likes: 0,
          dislikes: 0
       };
+      this.handleEditData = this.handleEditData.bind(this)
+      this.deleteSong = this.deleteSong.bind(this)
+      this.likeData = this.likeData.bind(this)
+      this.dislikeData = this.dislikeData.bind(this)
+
+   }
+
+   fetchSongs = () => {
+     fetch('http://localhost:3000/songs')    //this will be heroku url for live deployment
+     .then(response => response.json())
+     .then(music => this.setState({
+       data: music
+     })
+      , err => console.log(err))
    }
 
    componentDidMount() {
-      // API HERE (GET)
-      // data should be replace with a list of objects!
-      this.setState({
-         data: data
-      });
+      this.fetchSongs()
    }
 
    handleChange = event => {
@@ -83,31 +64,37 @@ class App extends Component {
       });
    };
 
-   addData = () => {
-      // API HERE (POST)
 
-      // Be SURE to change ID with the ID Postgres Creates!!!!!!
-      const newData = {
-         // CHANGE HERE!!
-         id: Math.floor(Math.random() * Math.floor(10000)),
-         song_name: this.state.song_name,
-         artist: this.state.artist,
-         videoId: this.state.videoId,
-         contributor: this.state.contributor,
-         likes: 0,
-         dislikes: 0
-      };
-      const updateData = [newData, ...this.state.data];
-      this.setState({
-         data: updateData
-      });
+   addData = () => {
+     const newData = {
+        song_name: this.state.song_name,
+        artist: this.state.artist,
+        videoId: this.state.videoId,
+        contributor: this.state.contributor,
+        likes: 0,
+        dislikes: 0
+     };
+      fetch('http://localhost:3000/songs', {
+        body: JSON.stringify(newData),
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(createdSong => {
+        createdSong.json()
+      })
+      .then(data => {
+        this.fetchSongs()
+      })
+      .catch(err => console.log(err))
    };
 
    editData = event => {
       let selectedObject = this.state.data.find(function(object) {
          return object.id === Number(event.target.id);
       });
-
       this.setState({
          editting: true,
          id: selectedObject.id,
@@ -119,10 +106,7 @@ class App extends Component {
          dislikes: selectedObject.dislikes
       });
    };
-
    handleEditData = () => {
-      // API HERE (PUT)
-
       const updateMusic = {
          id: this.state.id,
          song_name: this.state.song_name,
@@ -131,7 +115,19 @@ class App extends Component {
          contributor: this.state.contributor,
          likes: this.state.likes,
          dislikes: this.state.dislikes
-      };
+      }
+      fetch(`http://localhost:3000/songs/${this.state.id}`, {
+        body: JSON.stringify(updateMusic),
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        }
+      }).then(updatedSong => {
+        updatedSong.json()
+      }).then(data => {
+        this.fetchSongs()
+      }).catch (err => console.log(err));
 
       const update = this.state.data.map(function(item) {
          if (item.id === updateMusic.id) {
@@ -140,21 +136,21 @@ class App extends Component {
             return item;
          }
       });
-
       this.setState({
          data: update
       });
-   };
+   }
 
-   deleteData = event => {
-      // API HERE (DELETE)
-      this.setState({
-         data: this.state.data.filter(item => item.id !== Number(event.target.id))
-      });
-   };
+   deleteSong = (event) => {
+     fetch(`http://localhost:3000/songs/${event.target.id}`, {
+       method: 'DELETE'
+     })
+        .then(data => {
+        this.fetchSongs()
+        }).catch(err => console.log(err))
+   }
 
    likeData = event => {
-      // API HERE (PUT)
 
       let selectedObject = this.state.data.find(function(object) {
          return object.id === Number(event.target.id);
@@ -169,6 +165,14 @@ class App extends Component {
          likes: selectedObject.likes + 1,
          dislikes: selectedObject.dislikes
       };
+      fetch(`http://localhost:3000/songs/${event.target.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(likedMusic),
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        }
+      })
 
       const update = this.state.data.map(function(item) {
          if (item.id === likedMusic.id) {
@@ -199,6 +203,15 @@ class App extends Component {
          likes: selectedObject.likes,
          dislikes: selectedObject.dislikes + 1
       };
+
+      fetch(`http://localhost:3000/songs/${event.target.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(dislikeMusic),
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        }
+      })
 
       const update = this.state.data.map(function(item) {
          if (item.id === dislikeMusic.id) {
@@ -351,7 +364,7 @@ class App extends Component {
                         <button id={music.id} onClick={this.editData}>
                            Edit
                         </button>
-                        <button id={music.id} onClick={this.deleteData}>
+                        <button id={music.id} onClick={this.deleteSong}>
                            Delete
                         </button>
                      </div>
