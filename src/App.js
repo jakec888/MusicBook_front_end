@@ -245,8 +245,6 @@ class App extends Component {
 
    render() {
       const opts = {
-         width: "640",
-         height: "390",
          playerVars: {
             autoplay: 0,
             rel: 0
@@ -257,8 +255,8 @@ class App extends Component {
          <div className="main">
             <h1>Music Book</h1>
             <p>
-               Just like <strong>FaceBook</strong> but without all the{" "}
-               <strong>depression</strong>
+               Just like <strong>FaceBook </strong>
+               but without all the <strong>Depression</strong>
             </p>
             {this.state.editting ? (
                <div className="form">
@@ -340,6 +338,8 @@ class App extends Component {
                   <div className="music-container" key={music.id} id={music.id}>
                      <h2>{music.song_name}</h2>
                      <h3>{music.artist}</h3>
+                     {/*  */}
+
                      <div className="rate">
                         <div className="like">
                            <p>Likes</p>
@@ -373,6 +373,44 @@ class App extends Component {
                            </button>
                         </div>
                      </div>
+
+                     <div className="small-rate">
+                        <div className="music-vid">
+                           <YouTube
+                              className="yt"
+                              videoId={music.videoid}
+                              onReady={this._onReady}
+                              opts={opts}
+                           />
+                           <h5>Contributor: {music.contributor}</h5>
+                        </div>
+                        <div className="like-dislike">
+                           <div className="like">
+                              <p>Likes</p>
+                              <h3>{music.likes}</h3>
+                              <button
+                                 id={music.id}
+                                 onClick={this.likeData}
+                                 className="likebtn"
+                              >
+                                 Like
+                              </button>
+                           </div>
+                           <div className="dislike">
+                              <p>Dislikes</p>
+                              <h3>{music.dislikes}</h3>
+                              <button
+                                 id={music.id}
+                                 onClick={this.dislikeData}
+                                 className="dislikebtn"
+                              >
+                                 Dislike
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+
+                     {/*  */}
                      <div className="delup">
                         <button id={music.id} onClick={this.editData}>
                            Edit
