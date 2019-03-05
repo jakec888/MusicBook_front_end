@@ -66,11 +66,25 @@ class App extends Component {
       });
    };
 
+   cutId = (str) => {
+     let indexed = str.indexOf('=');
+     let splits = str.indexOf('&');
+
+    if(!str.includes('=')) {
+      return str;
+   } else if (str.includes('&')) {
+     return str.slice((indexed + 1), splits)
+   } else {
+     return str.slice((indexed + 1), str.length)
+   }
+ }
+
+
    addData = () => {
       const newData = {
          song_name: this.state.song_name,
          artist: this.state.artist,
-         videoid: this.state.videoid,
+         videoid: this.cutId(this.state.videoid),
          contributor: this.state.contributor,
          likes: 0,
          dislikes: 0
@@ -114,7 +128,7 @@ class App extends Component {
          id: this.state.id,
          song_name: this.state.song_name,
          artist: this.state.artist,
-         videoid: this.state.videoid,
+         videoid: this.cutId(this.state.videoid),
          contributor: this.state.contributor,
          likes: this.state.likes,
          dislikes: this.state.dislikes
