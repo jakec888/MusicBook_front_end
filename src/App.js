@@ -3,7 +3,6 @@ import YouTube from "react-youtube";
 
 import "./App.css";
 
-
 class App extends Component {
    constructor(props) {
       super(props);
@@ -13,29 +12,32 @@ class App extends Component {
          id: "",
          song_name: "",
          artist: "",
-         videoId: "",
+         videoid: "",
          contributor: "",
          likes: 0,
          dislikes: 0
       };
-      this.handleEditData = this.handleEditData.bind(this)
-      this.deleteSong = this.deleteSong.bind(this)
-      this.likeData = this.likeData.bind(this)
-      this.dislikeData = this.dislikeData.bind(this)
-
+      this.handleEditData = this.handleEditData.bind(this);
+      this.deleteSong = this.deleteSong.bind(this);
+      this.likeData = this.likeData.bind(this);
+      this.dislikeData = this.dislikeData.bind(this);
    }
 
    fetchSongs = () => {
-     fetch('http://localhost:3000/songs')    //this will be heroku url for live deployment
-     .then(response => response.json())
-     .then(music => this.setState({
-       data: music
-     })
-      , err => console.log(err))
-   }
+      fetch("https://music-book-api.herokuapp.com/songs")
+         .then(response => response.json())
+         .then(music => {
+            this.setState({
+               data: music.sort((a, b) =>
+                  a.likes < b.likes ? 1 : b.likes < a.likes ? -1 : 0
+               )
+            });
+         })
+         .catch(err => console.log(err));
+   };
 
    componentDidMount() {
-      this.fetchSongs()
+      this.fetchSongs();
    }
 
    handleChange = event => {
@@ -59,39 +61,39 @@ class App extends Component {
          id: "",
          song_name: "",
          artist: "",
-         videoId: "",
+         videoid: "",
          contributor: ""
       });
    };
 
-
    addData = () => {
-     const newData = {
-        song_name: this.state.song_name,
-        artist: this.state.artist,
-        videoId: this.state.videoId,
-        contributor: this.state.contributor,
-        likes: 0,
-        dislikes: 0
-     };
-      fetch('http://localhost:3000/songs', {
-        body: JSON.stringify(newData),
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        }
+      const newData = {
+         song_name: this.state.song_name,
+         artist: this.state.artist,
+         videoid: this.state.videoid,
+         contributor: this.state.contributor,
+         likes: 0,
+         dislikes: 0
+      };
+      fetch("https://music-book-api.herokuapp.com/songs", {
+         body: JSON.stringify(newData),
+         method: "POST",
+         headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+         }
       })
-      .then(createdSong => {
-        createdSong.json()
-      })
-      .then(data => {
-        this.fetchSongs()
-      })
-      .catch(err => console.log(err))
+         .then(createdSong => {
+            createdSong.json();
+         })
+         .then(data => {
+            this.fetchSongs();
+         })
+         .catch(err => console.log(err));
    };
 
    editData = event => {
+      window.scrollTo(0, 0);
       let selectedObject = this.state.data.find(function(object) {
          return object.id === Number(event.target.id);
       });
@@ -100,34 +102,38 @@ class App extends Component {
          id: selectedObject.id,
          song_name: selectedObject.song_name,
          artist: selectedObject.artist,
-         videoId: selectedObject.videoId,
+         videoid: selectedObject.videoid,
          contributor: selectedObject.contributor,
          likes: selectedObject.likes,
          dislikes: selectedObject.dislikes
       });
    };
+
    handleEditData = () => {
       const updateMusic = {
          id: this.state.id,
          song_name: this.state.song_name,
          artist: this.state.artist,
-         videoId: this.state.videoId,
+         videoid: this.state.videoid,
          contributor: this.state.contributor,
          likes: this.state.likes,
          dislikes: this.state.dislikes
-      }
+      };
       fetch(`https://music-book-api.herokuapp.com/songs/${this.state.id}`, {
-        body: JSON.stringify(updateMusic),
-        method: 'PUT',
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        }
-      }).then(updatedSong => {
-        updatedSong.json()
-      }).then(data => {
-        this.fetchSongs()
-      }).catch (err => console.log(err));
+         body: JSON.stringify(updateMusic),
+         method: "PUT",
+         headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+         }
+      })
+         .then(updatedSong => {
+            updatedSong.json();
+         })
+         .then(data => {
+            this.fetchSongs();
+         })
+         .catch(err => console.log(err));
 
       const update = this.state.data.map(function(item) {
          if (item.id === updateMusic.id) {
@@ -137,21 +143,24 @@ class App extends Component {
          }
       });
       this.setState({
-         data: update
+         data: update.sort((a, b) =>
+            a.likes < b.likes ? 1 : b.likes < a.likes ? -1 : 0
+         )
       });
-   }
+   };
 
-   deleteSong = (event) => {
-     fetch(`https://music-book-api.herokuapp.com/songs/${event.target.id}`, {
-       method: 'DELETE'
-     })
-        .then(data => {
-        this.fetchSongs()
-        }).catch(err => console.log(err))
-   }
+   deleteSong = event => {
+      fetch(`https://music-book-api.herokuapp.com/songs/${event.target.id}`, {
+         method: "DELETE"
+      })
+         .then(data => {
+            window.scrollTo(0, 0);
+            this.fetchSongs();
+         })
+         .catch(err => console.log(err));
+   };
 
    likeData = event => {
-
       let selectedObject = this.state.data.find(function(object) {
          return object.id === Number(event.target.id);
       });
@@ -160,19 +169,19 @@ class App extends Component {
          id: selectedObject.id,
          song_name: selectedObject.song_name,
          artist: selectedObject.artist,
-         videoId: selectedObject.videoId,
+         videoid: selectedObject.videoid,
          contributor: selectedObject.contributor,
          likes: selectedObject.likes + 1,
          dislikes: selectedObject.dislikes
       };
       fetch(`https://music-book-api.herokuapp.com/songs/${event.target.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(likedMusic),
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        }
-      })
+         method: "PUT",
+         body: JSON.stringify(likedMusic),
+         headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+         }
+      });
 
       const update = this.state.data.map(function(item) {
          if (item.id === likedMusic.id) {
@@ -183,7 +192,9 @@ class App extends Component {
       });
 
       this.setState({
-         data: update
+         data: update.sort((a, b) =>
+            a.likes < b.likes ? 1 : b.likes < a.likes ? -1 : 0
+         )
       });
    };
 
@@ -198,20 +209,20 @@ class App extends Component {
          id: selectedObject.id,
          song_name: selectedObject.song_name,
          artist: selectedObject.artist,
-         videoId: selectedObject.videoId,
+         videoid: selectedObject.videoid,
          contributor: selectedObject.contributor,
          likes: selectedObject.likes,
          dislikes: selectedObject.dislikes + 1
       };
 
       fetch(`https://music-book-api.herokuapp.com/songs/${event.target.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(dislikeMusic),
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        }
-      })
+         method: "PUT",
+         body: JSON.stringify(dislikeMusic),
+         headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json"
+         }
+      });
 
       const update = this.state.data.map(function(item) {
          if (item.id === dislikeMusic.id) {
@@ -222,7 +233,9 @@ class App extends Component {
       });
 
       this.setState({
-         data: update
+         data: update.sort((a, b) =>
+            a.likes < b.likes ? 1 : b.likes < a.likes ? -1 : 0
+         )
       });
    };
 
@@ -232,8 +245,6 @@ class App extends Component {
 
    render() {
       const opts = {
-         width: "640",
-         height: "390",
          playerVars: {
             autoplay: 0,
             rel: 0
@@ -244,8 +255,8 @@ class App extends Component {
          <div className="main">
             <h1>Music Book</h1>
             <p>
-               Just like <strong>FaceBook</strong> but without all the{" "}
-               <strong>depression</strong>
+               Just like <strong>FaceBook </strong>
+               but without all the <strong>Depression</strong>
             </p>
             {this.state.editting ? (
                <div className="form">
@@ -267,8 +278,8 @@ class App extends Component {
                      />
                      <input
                         type="text"
-                        id="videoId"
-                        value={this.state.videoId}
+                        id="videoid"
+                        value={this.state.videoid}
                         onChange={this.handleChange}
                         placeholder="Video ID"
                      />
@@ -304,8 +315,8 @@ class App extends Component {
                      />
                      <input
                         type="text"
-                        id="videoId"
-                        value={this.state.videoId}
+                        id="videoid"
+                        value={this.state.videoid}
                         onChange={this.handleChange}
                         placeholder="Video ID"
                      />
@@ -327,6 +338,8 @@ class App extends Component {
                   <div className="music-container" key={music.id} id={music.id}>
                      <h2>{music.song_name}</h2>
                      <h3>{music.artist}</h3>
+                     {/*  */}
+
                      <div className="rate">
                         <div className="like">
                            <p>Likes</p>
@@ -342,7 +355,7 @@ class App extends Component {
                         <div className="music-vid">
                            <YouTube
                               className="yt"
-                              videoId={music.videoId}
+                              videoId={music.videoid}
                               onReady={this._onReady}
                               opts={opts}
                            />
@@ -360,6 +373,44 @@ class App extends Component {
                            </button>
                         </div>
                      </div>
+
+                     <div className="small-rate">
+                        <div className="music-vid">
+                           <YouTube
+                              className="yt"
+                              videoId={music.videoid}
+                              onReady={this._onReady}
+                              opts={opts}
+                           />
+                           <h5>Contributor: {music.contributor}</h5>
+                        </div>
+                        <div className="like-dislike">
+                           <div className="like">
+                              <p>Likes</p>
+                              <h3>{music.likes}</h3>
+                              <button
+                                 id={music.id}
+                                 onClick={this.likeData}
+                                 className="likebtn"
+                              >
+                                 Like
+                              </button>
+                           </div>
+                           <div className="dislike">
+                              <p>Dislikes</p>
+                              <h3>{music.dislikes}</h3>
+                              <button
+                                 id={music.id}
+                                 onClick={this.dislikeData}
+                                 className="dislikebtn"
+                              >
+                                 Dislike
+                              </button>
+                           </div>
+                        </div>
+                     </div>
+
+                     {/*  */}
                      <div className="delup">
                         <button id={music.id} onClick={this.editData}>
                            Edit
