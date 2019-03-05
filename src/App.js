@@ -93,6 +93,7 @@ class App extends Component {
    };
 
    editData = event => {
+      window.scrollTo(0, 0);
       let selectedObject = this.state.data.find(function(object) {
          return object.id === Number(event.target.id);
       });
@@ -153,6 +154,7 @@ class App extends Component {
          method: "DELETE"
       })
          .then(data => {
+            window.scrollTo(0, 0);
             this.fetchSongs();
          })
          .catch(err => console.log(err));
