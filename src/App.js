@@ -26,7 +26,7 @@ class App extends Component {
    }
 
    fetchSongs = () => {
-     fetch('https://music-book-api.herokuapp.com/songs')    //this will be heroku url for live deployment
+     fetch('http://localhost:3000/songs')    //this will be heroku url for live deployment
      .then(response => response.json())
      .then(music => this.setState({
        data: music
@@ -74,7 +74,7 @@ class App extends Component {
         likes: 0,
         dislikes: 0
      };
-      fetch('https://music-book-api.herokuapp.com/songs', {
+      fetch('http://localhost:3000/songs', {
         body: JSON.stringify(newData),
         method: 'POST',
         headers: {
