@@ -8,6 +8,12 @@ Christopher Cook
 <br/>
 <a href="https://github.com/christopher-cook/MusicBook_api">Back-End Repo</a>
 
+# Presentation
+
+-  Delegation & Processes
+-  Details
+-  Obstacles & Struggles
+-  Group Participation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import YouTube from "react-youtube";
-
 import "./App.css";
+
+const getVideoId = require("get-video-id");
 
 class App extends Component {
    constructor(props) {
@@ -66,25 +67,11 @@ class App extends Component {
       });
    };
 
-   cutId = (str) => {
-     let indexed = str.indexOf('=');
-     let splits = str.indexOf('&');
-
-    if(!str.includes('=')) {
-      return str;
-   } else if (str.includes('&')) {
-     return str.slice((indexed + 1), splits)
-   } else {
-     return str.slice((indexed + 1), str.length)
-   }
- }
-
-
    addData = () => {
       const newData = {
          song_name: this.state.song_name,
          artist: this.state.artist,
-         videoid: this.cutId(this.state.videoid),
+         videoid: getVideoId(this.state.videoid).id,
          contributor: this.state.contributor,
          likes: 0,
          dislikes: 0
@@ -128,7 +115,7 @@ class App extends Component {
          id: this.state.id,
          song_name: this.state.song_name,
          artist: this.state.artist,
-         videoid: this.cutId(this.state.videoid),
+         videoid: getVideoId(this.state.videoid).id,
          contributor: this.state.contributor,
          likes: this.state.likes,
          dislikes: this.state.dislikes
@@ -295,7 +282,7 @@ class App extends Component {
                         id="videoid"
                         value={this.state.videoid}
                         onChange={this.handleChange}
-                        placeholder="Video ID"
+                        placeholder="Youtube URL"
                      />
                      <input
                         type="text"
@@ -332,7 +319,7 @@ class App extends Component {
                         id="videoid"
                         value={this.state.videoid}
                         onChange={this.handleChange}
-                        placeholder="Video ID"
+                        placeholder="Youtube URL"
                      />
                      <input
                         type="text"
