@@ -1,8 +1,5 @@
 <h1>MusicBook</h1>
 
-<h2>Authors</h2>
- Jacon Condes<br />
-Christopher Cook
 
 <br/>
 <br/>
@@ -83,3 +80,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+<h4>Authors</h4>
+ Jacon Condes<br />
+Christopher Cook
