@@ -1,5 +1,4 @@
 <h1>MusicBook</h1>
-<br/>
 
 # Presentation
 
