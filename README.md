@@ -1,6 +1,4 @@
 <h1>MusicBook</h1>
-
-
 <br/>
 <br/>
 <a href="https://github.com/christopher-cook/MusicBook_api">Back-End Repo</a>
