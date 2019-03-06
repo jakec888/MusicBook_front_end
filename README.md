@@ -1,7 +1,5 @@
 <h1>MusicBook</h1>
 <br/>
-<br/>
-<a href="https://github.com/christopher-cook/MusicBook_api">Back-End Repo</a>
 
 # Presentation
 
@@ -82,3 +80,5 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 <h4>Authors</h4>
  Jacon Condes<br />
 Christopher Cook
+
+<a href="https://github.com/christopher-cook/MusicBook_api">Back-End Repo</a>
