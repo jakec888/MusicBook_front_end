@@ -1,6 +1,6 @@
 <h1>MusicBook</h1>
 
-# Presentation
+<h2>Presentation</h2>
 
 -  Delegation & Processes
 -  Details
