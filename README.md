@@ -1,11 +1,15 @@
 <h1>MusicBook</h1>
 
+<p align="center">
+<img src="MusicBook.gif" />
+</p>
+
 <h2>Presentation</h2>
 
--  Delegation & Processes
--  Details
--  Obstacles & Struggles
--  Group Participation
+- Delegation & Processes
+- Details
+- Obstacles & Struggles
+- Group Participation
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
